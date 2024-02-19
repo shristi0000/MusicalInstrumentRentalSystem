@@ -108,8 +108,6 @@ def users(request):
         return render(request, 'frontend/dashboard.html')
     
 def delete_user(request, user_id):
-    print("hello")
-    print (request.user)
     user = get_object_or_404(User, id=user_id)
     
     if request.method == 'POST':
