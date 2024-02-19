@@ -112,7 +112,7 @@ def delete_user(request, user_id):
     print (request.user)
     user = get_object_or_404(User, id=user_id)
     
-    if request.method == 'GET':
+    if request.method == 'POST':
         user.delete()
         return redirect('your_user_list_view')  # Redirect to your user list view
 
