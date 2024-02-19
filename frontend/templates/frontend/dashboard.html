@@ -1,0 +1,39 @@
+{% extends 'frontend/base.html' %}
+{% block start %}
+<div class="container my-5">
+  <section class="">
+    
+    <a href="{% url 'users' %}" class="btn btn-primary" role="button">Users</a>
+    <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-secondary" role="button">Add Instrument</a>
+    <div id="instrumentFormDiv" style="display: none;">
+        <form id="instrumentForm" method="post" enctype="multipart/form-data" action="{% url 'add_instrument' %}">
+            {% csrf_token %}
+            
+            {{ form.instrument_name.label_tag }} {{ form.instrument_name }}
+            {{ form.instrument_type.label_tag }} {{ form.instrument_type }}
+            {{ form.price_per_day.label_tag }} {{ form.price_per_day }}
+            {{ form.image.label_tag }} {{ form.image }}
+            {{ form.description.label_tag }} {{ form.description }}
+
+            <button type="button" id="submitInstrumentBtn" class="btn btn-success">Add</button>
+        </form>
+    </div>
+    <div id="successMessage" style="display: none;">
+        <p>Instrument added successfully!</p>
+    </div>
+  </section>
+</div>
+
+<script>
+    document.getElementById('addInstrumentBtn').addEventListener('click', function() {
+        var formDiv = document.getElementById('instrumentFormDiv');
+        formDiv.style.display = 'block';
+        formDiv.scrollIntoView();
+    });
+
+    document.getElementById('submitInstrumentBtn').addEventListener('click', function() {
+        // Trigger form submission
+        document.getElementById('instrumentForm').submit();
+    });
+</script>
+{% endblock %}
