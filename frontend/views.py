@@ -125,4 +125,4 @@ def add_instrument(request):
     else:
         form = InstrumentForm()
 
-    return render(request, 'add_instrument.html', {'form': form})
+    return render(request, 'frontend/add_instrument.html', {'form': form})
