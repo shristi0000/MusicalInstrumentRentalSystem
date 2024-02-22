@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 from .models import Instrument
 from .forms import InstrumentForm
-
+from django.contrib.auth.forms import PasswordResetForm
 # def login(req):
 #     return render(req, 'frontend/login.html')
 
@@ -126,3 +126,26 @@ def add_instrument(request):
         form = InstrumentForm()
 
     return render(request, 'frontend/add_instrument.html', {'form': form})
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+         
+            new_password = form.cleaned_data['password1']
+
+
+            request.user.password = make_password(new_password)
+            request.user.save()
+            
+            pass
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'frontend/forgot_password.html', {'form': form})
+
+def about(request):
+    return render(request,"frontend/Aboutus.html")
+
+def ContactUs(request):
+    return render(request,"frontend/Contact_US.html")

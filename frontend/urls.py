@@ -24,12 +24,14 @@ from .views import add_instrument
 urlpatterns = [
     path('login/',views.user_login, name='login'),
     path('',views.landing, name='landing'),
+    path('about/', views.about, name='about'),
+    path('ContactUs/', views.ContactUs, name='ContactUs'),
     path('register/', views.register, name='register'),
     path('logout/', views.user_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('users/', views.users, name='users'),
     path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
     path('add_instrument/', add_instrument, name='add_instrument'),
-    
+     path('forgot_password/', views.forgot_password, name='forgot_password'),
 ]
 

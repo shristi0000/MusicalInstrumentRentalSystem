@@ -1,6 +1,6 @@
 {% extends 'frontend/base.html' %} 
 {% block start %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SYb1Ib9Rxp5c01EK3JvHDL+P9tbv6+PvN6NHT" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="correct-integrity-value" crossorigin="anonymous">
 
 <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center" style="background: linear-gradient(to bottom, #007bff 50%, #ffffff 50%)">
   <div class="card border-0 w-50 bg-transparent p-4">
@@ -39,6 +39,10 @@
       <p class="m-0">
         Don't have an account?
         <a href="{% url 'register' %}" class="text-primary">Create Account</a>
+      </p>
+      <p class="m-0">
+        Forgot Password?
+        <a href="{% url 'forgot_password' %}" class="text-primary">Reset</a>
       </p>
     </div>
   </div>

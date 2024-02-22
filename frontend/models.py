@@ -22,3 +22,10 @@ class Instrument(models.Model):
 
     def __str__(self):
         return self.name
+    
+class  PasswordResetForm(models.Model):
+     new_Password = models.CharField(max_length=100)
+     new_Password = models.CharField(max_length=50)
+    
+
+    
