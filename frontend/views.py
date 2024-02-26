@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404, render
 from .models import Instrument
 from .forms import InstrumentForm
 from django.contrib.auth.forms import PasswordResetForm
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 # def login(req):
 #     return render(req, 'frontend/login.html')
 
@@ -162,4 +165,12 @@ def livelistings(request):
        instrument.image = instrument.image.url if instrument.image else None
        print(instrument.image)
     return render(request, "frontend/livelistings.html", {"instrument": instruments})
-       
+
+# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'users/password_reset.html'
+    subject_template_name = 'users/password_reset_subject'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('users-home')      

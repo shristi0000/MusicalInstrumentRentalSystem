@@ -6,10 +6,10 @@
     <a href="{% url 'users' %}" class="btn btn-primary" role="button">Users</a>
     <a href="{% url 'livelistings' %}" class="btn btn-primary" role="button">Live listings</a>
     <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-secondary" role="button">Add Instrument</a>
-    <section class="">
-      <div class="btn btn-primary btn-lg text-center disabled opacity-100 my-3">
-        <span>Users</span>
-      </div>
+    {% comment %} <section class="">
+      {% comment %} <div class="btn btn-primary btn-lg text-center disabled opacity-100 my-3"> {% endcomment %}
+        <span></span>
+      </div> 
       <div class="card shadow p-4">
         <section class="my-5">
           <div class="h3">Live listings</div>

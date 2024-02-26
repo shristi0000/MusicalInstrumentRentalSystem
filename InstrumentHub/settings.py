@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'frontend',
     'bootstrap5',
     'django_bootstrap_icons',
-   
+    
     
 ]
 
