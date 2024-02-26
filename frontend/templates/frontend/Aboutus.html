@@ -1,24 +1,33 @@
 {% extends 'frontend/base.html' %}
 {% load static %}
-{% block title %}About Us {% endblock title %}
+{% block title %}About Us{% endblock title %}
 
-{% block main-content %}
-<div class="Container mt-3">
-    <br>
-    <h2 class="text-center">About </h2>
-    <br>
-    <div class="row container">
-        <p class="fs-4 text-center">Welcome to Instrument Hub, your go-to platform for all things related to musical instruments and equipment!
-            At Instrument Hub, we're dedicated to redefining the way musicians access and share musical instruments. 
-            Whether you're looking to rent out your beloved instrument or seeking a quality instrument for a special occasion, we've got you covered. </p>
+{% block start %}
+<div class="container mt-3">
+    <div class="text-center">
+        <img src="{% static "/media/images/Rectangle 237.png" %}" class="img-fluid rounded" alt="About Us Image" style="max-height: 300px;">
     </div>
-        <br>
-    <h2 class="text-center"> Our Mission</h2>
     <br>
-    <div class="row container">
-        <p class="fs-4 text-center">Our mission at Instrument Hub is to bridge the gap between passionate musicians and the instruments they need.
-             We believe that every musician should have the opportunity to explore and enjoy a variety of instruments without the burden of ownership.
-             By facilitating a seamless instrument renting experience, we aim to make music more accessible and affordable. </p>
-     </div>
+    <h2 class="text-center mt-4">About Instrument Hub</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p class="fs-4 text-center">
+                Welcome to Instrument Hub, your go-to platform for all things related to musical instruments and equipment!
+                At Instrument Hub, we're dedicated to redefining the way musicians access and share musical instruments.
+                Whether you're looking to rent out your beloved instrument or seeking a quality instrument for a special occasion, we've got you covered.
+            </p>
+        </div>
+    </div>
+    <br>
+    <h2 class="text-center mt-4">Our Mission</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <p class="fs-4 text-center">
+                Our mission at Instrument Hub is to bridge the gap between passionate musicians and the instruments they need.
+                We believe that every musician should have the opportunity to explore and enjoy a variety of instruments without the burden of ownership.
+                By facilitating a seamless instrument renting experience, we aim to make music more accessible and affordable.
+            </p>
+        </div>
+    </div>
 </div>
-{% endblock main-content %}
+{% endblock %}

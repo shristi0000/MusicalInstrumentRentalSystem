@@ -10,73 +10,73 @@
         {% for field, error in form.errors.items %} {{ error }} {% endfor %}
       </div>
       {% endif %}
-      <form action="{% url 'add_instrument' %}" method="post">
+      <form action="{% url 'add_instrument' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <label for="Instrument_name" class="form-label">
+        <label for="name" class="form-label">
           <i class="fas fa-user"></i>
           Instrument Name
         </label>
         <input
           type="text"
-          id="Instrument_name"
-          name="Instrument_name"
+          id="name"
+          name="name"
           class="form-control"
           required
         />
 
-        <label for="Type" class="form-label mt-3">
+        <label for="type" class="form-label mt-3">
           <i class="fas fa-user"></i>
          Type
         </label>
         <input
           type="text"
-          id="Type"
-          name="Type"
+          id="type"
+          name="type"
           class="form-control"
           required
         />
 
     
-        <label for="Price Per Day" class="form-label mt-3">
+        <label for="price_per_day" class="form-label mt-3">
           <i class="fas fa-user"></i>
           Price Per Day
         </label>
         <input
           type="text"
-          id="Price Per Day"
-          name="Price Per Day"
+          id="price_per_day"
+          name="price_per_day"
           class="form-control"
           required
         />
 
-        <label for="Image" class="form-label mt-3">
+        <label for="image" class="form-label mt-3">
           <i class="fas fa-envelope"></i>
           Image
         </label>
         <input
           type="file"  
-          id="Image"    
-          name="Image"  
+          id="image"    
+          name="image"  
           class="form-control"
           required
         />
 
-        <label for="Description" class="form-label mt-3">
+        <label for="description" class="form-label mt-3">
           <i class="fas fa-lock"></i>
           Description
         </label>
         <input
           type="text"  
-          id="Description"
-          name="Description"
+          id="description"
+          name="description"
           class="form-control"
           required
         />
 
         <div class="text-center mt-3">
-          <button type="Add" class="btn btn-primary mt-3 text-center">
-            Add
+          <button type="submit" class="btn btn-primary mt-3 text-center">
+            Add Instrument
           </button>
         </div>
     

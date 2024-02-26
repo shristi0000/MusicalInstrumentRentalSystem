@@ -17,7 +17,7 @@ class Instrument(models.Model):
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=50)
     price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='instrument_images/')
+    image = models.ImageField(upload_to='instrument_images/',null=True)
     description = models.TextField()
 
     def __str__(self):

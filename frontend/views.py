@@ -92,7 +92,12 @@ def user_login(request):
     return render(request, 'frontend/login.html', {'form': form})
 
 def dashboard(request):
-    return render(request, 'frontend/dashboard.html')
+    instruments = Instrument.objects.all()
+    
+    for instrument in list(instruments):
+       instrument.image = instrument.image.url if instrument.image else None
+    return render(request, 'frontend/dashboard.html',{'instrument':instruments})
+
 
 def user_logout(request):
     logout(request)
@@ -121,7 +126,7 @@ def add_instrument(request):
         form = InstrumentForm(request.POST, request.FILES)
         if form.is_valid():
             instrument = form.save()
-            return render(request, 'add_instrument.html', {'instrument': instrument})
+            return render(request, 'frontend/add_instrument.html', {'instrument': instrument})
     else:
         form = InstrumentForm()
 
@@ -144,8 +149,17 @@ def forgot_password(request):
 
     return render(request, 'frontend/forgot_password.html', {'form': form})
 
-def about(request):
+def about_us(request):
     return render(request,"frontend/Aboutus.html")
 
-def ContactUs(request):
+def contact_us(request):
     return render(request,"frontend/Contact_US.html")
+
+def livelistings(request):
+    instruments = Instrument.objects.all()
+    
+    for instrument in list(instruments):
+       instrument.image = instrument.image.url if instrument.image else None
+       print(instrument.image)
+    return render(request, "frontend/livelistings.html", {"instrument": instruments})
+       
