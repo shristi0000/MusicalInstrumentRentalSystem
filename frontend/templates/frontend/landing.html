@@ -1,4 +1,5 @@
 {% extends 'frontend/base.html' %} {% block start %}
+{% load static %}
 <div class="container my-5">
   <section class="text-center" id="hero">
     <div class="container">
@@ -8,8 +9,9 @@
         ><span class="hub h1">HUB</span>.
       </h3>
       <div class="text-center">
+        <img src="{% static 'image/landing.png' %}" alt="Image">
         <img
-          src="/media/images/landing.png"
+          src="/media/public/static/images/landing.png"
           class="rounded img-fluid"
           alt="..."
           width="600"
@@ -123,7 +125,7 @@
       <div class="col">
         <div class="card h-100">
           <img
-            src="/media/images/Rectangle 238.png"
+            src="/images/Rectangle 238.png"
             class="card-img"
             alt="..."
             width="200"
@@ -137,7 +139,7 @@
       <div class="col">
         <div class="card h-100">
           <img
-            src="/media/images/Rectangle 239.png"
+            src="/images/Rectangle 239.png"
             class="card-img"
             alt="..."
             width="200"
@@ -151,7 +153,7 @@
       <div class="col">
         <div class="card h-100">
           <img
-            src="/media/images/Rectangle 240.png"
+            src="/images/Rectangle 240.png"
             class="card-img"
             alt="..."
             width="200"

@@ -165,9 +165,8 @@ def livelistings(request):
        instrument.image = instrument.image.url if instrument.image else None
        print(instrument.image)
     return render(request, "frontend/livelistings.html", {"instrument": instruments})
-
-# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-    template_name = 'users/password_reset.html'
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'frontend/password_reset.html'
     subject_template_name = 'users/password_reset_subject'
     success_message = "We've emailed you instructions for setting your password, " \
                       "if an account exists with the email you entered. You should receive them shortly." \
