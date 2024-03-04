@@ -1,0 +1,12 @@
+<html>
+  <body>
+    {% autoescape off %} Welcome to InstrumentHUB Please confirm
+    your email by clicking on the following link.
+    <a
+      href="http://{{ domain }}{% url 'change_password' token=token username=username %}"
+      >Click Here</a
+    >
+
+     {% endautoescape %}
+  </body>
+</html>

@@ -12,6 +12,14 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.core.mail import EmailMessage
+# from InstrumentHUB.InstrumentHUB import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from .tokens import generate_token
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
 # def login(req):
 #     return render(req, 'frontend/login.html')
 
@@ -110,17 +118,18 @@ def user_logout(request):
 def users(request):
     # if user is superuser the get all users
     if request.user.is_superuser:
-        users = User.objects.all().values('username', 'first_name', 'last_name', 'email')
+        users = User.objects.all().values('id','username', 'first_name', 'last_name', 'email')
         return render(request, 'frontend/users.html', {'users': users})
     else:
         return render(request, 'frontend/dashboard.html')
     
 def delete_user(request, user_id):
+    print(request.user)
     user = get_object_or_404(User, id=user_id)
+    user.delete()
+    return redirect('users')
+
     
-    if request.method == 'POST':
-        user.delete()
-        return redirect('your_user_list_view')  # Redirect to your user list view
 
 
 
@@ -129,28 +138,92 @@ def add_instrument(request):
         form = InstrumentForm(request.POST, request.FILES)
         if form.is_valid():
             instrument = form.save()
-            return render(request, 'frontend/add_instrument.html', {'instrument': instrument})
+            messages.success(request, 'Instrument added successfully')
+            return redirect('dashboard')
     else:
         form = InstrumentForm()
 
     return render(request, 'frontend/add_instrument.html', {'form': form})
 
-def forgot_password(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-         
-            new_password = form.cleaned_data['password1']
+
+def ForgetPassword(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+
+            if not User.objects.filter(email=username).first():
+                messages.error(request, 'No user found with this username.')
+                return redirect('/forget-password/')
+            myuser = User.objects.get(email=username)
+
+            # Email Address Confirmation Email
+            current_site = get_current_site(request)
+            email_subject = "Verify your email @ Rents!"
+            message = render_to_string('frontend/email_reset.html',{
+                'name':myuser.first_name,
+                'domain':current_site.domain,
+                'username':myuser.username,
+                'token': generate_token.make_token(myuser),
+            })
+            plain_message = strip_tags(message)
+
+            send_mail(
+            email_subject,
+            plain_message,
+            "np03cs4a210040@heraldcollege.edu.np",  # Sender's email address
+            [myuser.email],  # Recipient's email address
+            html_message=message,
+    )
+
+# def send_quotation_email(
+#     self, items, recipient_email, sender_details=None, cc_emails=None
+# (sad)
+#     subject = "Quotation Details"
+#     html_message = render_to_string(
+#         "purchase_order/quotation/default_template.html",
+#         {"items": items, "sender": sender_details},
+#     )
+#     plain_message = strip_tags(
+#         html_message
+#     )  # Strip HTML tags for the plain text version
+
+#     send_mail(
+#         subject,
+#         plain_message,
+#         "dev.optixtec@gmail.com",  # Sender's email address
+#         recipient_email,  # Recipient's email address
+#         html_message=html_message,
+#     )
+#     return "Done"
 
 
-            request.user.password = make_password(new_password)
-            request.user.save()
+    except Exception as e:
+        print(e)
+    return render(request , "frontend/forget-password.html")
+
+def changePassword(request, username, token):
+    
+    
+    myuser = User.objects.get(username=username)
+
+    try:
+
+        if request.method == 'POST':
+            raw_password = request.POST['new_password']
+            confirm_password = request.POST['reconfirm_password']
+            myuser.set_password(raw_password)
+            myuser.save()
+
+
+            if  raw_password != confirm_password:
+                messages.success(request, 'both should  be equal.')
+                return redirect(f'/change-password/{token}/')
             
-            pass
-    else:
-        form = PasswordResetForm()
+            return redirect('login')
 
-    return render(request, 'frontend/forgot_password.html', {'form': form})
+    except Exception as e:
+        print(e)
+    return render(request , "frontend/change-password.html")
 
 def about_us(request):
     return render(request,"frontend/Aboutus.html")
@@ -165,7 +238,7 @@ def livelistings(request):
        instrument.image = instrument.image.url if instrument.image else None
        print(instrument.image)
     return render(request, "frontend/livelistings.html", {"instrument": instruments})
-class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'frontend/password_reset.html'
     subject_template_name = 'users/password_reset_subject'
     success_message = "We've emailed you instructions for setting your password, " \
@@ -173,3 +246,6 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       " If you don't receive an email, " \
                       "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('users-home')      
+
+def password_reset_done(request):
+    return render(request,'frontend/password_reset_done.html')

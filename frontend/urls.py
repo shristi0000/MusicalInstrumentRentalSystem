@@ -20,7 +20,7 @@ from . import views
 from .views import delete_user
 from django.contrib.auth import views as auth_views
 from .views import add_instrument
-from .views import ResetPasswordView
+# from .views import ResetPasswordView
 
 
 urlpatterns = [
@@ -33,9 +33,11 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('users/', views.users, name='users'),
-    path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('delete_user/<int:user_id>', views.delete_user, name='delete_user'),
     path('add_instrument/', add_instrument, name='add_instrument'),
-    #  path('forgot_password/', views.forgot_password, name='forgot_password'),
-    path('password-reset/', ResetPasswordView.as_view(), name='forgot_password'),
+     path('change-password/<token>/<username>' , views.changePassword , name="change_password"),
+     path('forget-password/' , views.ForgetPassword , name="forget_password"),
+    # path('password-reset/', ResetPasswordView.as_view(), name='forgot_password'),
+     path('password_reset_done/' , views.password_reset_done , name="password_reset_done"),
 ]
 

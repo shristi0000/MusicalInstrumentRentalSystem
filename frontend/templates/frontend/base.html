@@ -54,10 +54,10 @@
           <ul class="nav justify-content-end navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="about">About</a>
+              <a class="nav-link" href="{% url 'about_us' %}">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact">Contact Us</a>
+              <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
             </li>
             <li class="nav-item">
               <div class="dropdown">
@@ -92,20 +92,24 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
-             <li class="nav-item">
-                <a class="nav-link" href="{% url 'about_us' %}">About</a>
-                </li>
-              
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
-
-            </li>
+             
 
             {% endif %}
+            
           </ul>
         </div>
+        
       </div>
     </nav>
+    <!--base.html-->
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible shadow fade show" role="alert">
+    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message | safe }}
+</div>
+{% endfor %}
     {% block start %} {% endblock %}
     <footer></footer>
   </body>
