@@ -28,42 +28,42 @@ def landing(req):
         {
         'title': 'Cecilio 4-4 CVNAE-Black+SR Ebony Fitted',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 241.png',
+        # 'image': '/media/images/Rectangle 241.png',
         'price': 'Rs 5000'
         },{
         'title': 'Hand Carved Coconut Karimba Mbira',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 242.png',
+        # 'image': '/media/images/Rectangle 242.png',
         'price': 'Rs 5300'
         },{
         'title': 'Mendini MDS80-BK Complete Full Size',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 243.png',
+        # 'image': '/media/images/Rectangle 243.png',
         'price': 'Rs 4000'
         },{
         'title': 'Rizatti Bronco RB31GW Diatonic Accc',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 244.png',
+        # 'image': '/media/images/Rectangle 244.png',
         'price': 'Rs 34900'
         },{
         'title': 'Z ZTDM Professional Alto Eb Saxophone',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 250.png',
+        # 'image': '/media/images/Rectangle 250.png',
         'price': 'Rs 2399'
         },{
         'title': 'Rizatti Bronco RB31GW Diatonic Accc',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 244.png',
+        # 'image': '/media/images/Rectangle 244.png',
         'price': 'Rs 5000'
         },{
         'title': 'Hand Carved Coconut Karimba Mbira',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 242.png',
+        # 'image': '/media/images/Rectangle 242.png',
         'price': 'Rs 5500'
         },{
         'title': 'Mendini MDS80-BK Complete Full Size',
         'description': 'Welcome to InstrumentHub',
-        'image': '/media/images/Rectangle 243.png',
+        # 'image': '/media/images/Rectangle 243.png',
         'price': 'Rs 5000'
         }
     ]}
@@ -147,10 +147,12 @@ def add_instrument(request):
 
 
 def ForgetPassword(request):
+    
     try:
         if request.method == 'POST':
+            print("hellllooooooooooooooooooooooooooooooooooooooooooooooooo")
             username = request.POST.get('username')
-
+           
             if not User.objects.filter(email=username).first():
                 messages.error(request, 'No user found with this username.')
                 return redirect('/forget-password/')
@@ -172,8 +174,10 @@ def ForgetPassword(request):
             plain_message,
             "np03cs4a210040@heraldcollege.edu.np",  # Sender's email address
             [myuser.email],  # Recipient's email address
-            html_message=message,
-    )
+            html_message=message,)
+
+            return render(request, 'frontend/password_reset_done.html')
+            
 
 # def send_quotation_email(
 #     self, items, recipient_email, sender_details=None, cc_emails=None

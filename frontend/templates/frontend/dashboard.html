@@ -6,39 +6,32 @@
     <a href="{% url 'users' %}" class="btn btn-primary" role="button">Users</a>
     <a href="{% url 'livelistings' %}" class="btn btn-primary" role="button">Live listings</a>
     <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-secondary" role="button">Add Instrument</a>
-    {% comment %} <section class="">
-      {% comment %} <div class="btn btn-primary btn-lg text-center disabled opacity-100 my-3"> {% endcomment %}
-        <span></span>
-      </div> 
-      <div class="card shadow p-4">
-        <section class="my-5">
-          <div class="h3">Instruments</div>
-          <div class="row row-cols-2 row-cols-md-4 g-2">
-            {% for item in instrument %}
-            <div class="col">
-              <div class="card h-120 w-120 border-secondary">
-                
-                <img
-                  src="{{item.image}}"
-                  class="card-img"
-                  alt="..."
-                  width="300"
-                  height="300"
-                />
-                <div class="card-body px-0 text align-left ">
-                  <h5 class="card-title fs-6">{{item.name}}</h5>
-                  <p class="fs-4">{{item.price_per_day}}</p>
-                  <p class="fs-6">{{item.type}}</p>
-                  <a href="#" class="btn btn-primary w-50 text align-center"> Rent Now</a>
-                </div>
-              </div>
+
+    <section class="my-5">
+      <div class="h3">Instruments</div>
+      <div class="row row-cols-2 row-cols-md-4 g-2">
+        {% for item in instrument %}
+        <div class="col">
+          <div class="card h-120 w-120 border-secondary p-4"> 
+            <img
+              src="{{item.image}}"
+              class="card-img"
+              alt="..."
+              width="300"
+              height="300"
+            />
+            <div class="card-body px-0 text align-left">
+              <h5 class="card-title fs-6">{{item.name}}</h5>
+              <p class="fs-4">{{item.price_per_day}}</p>
+              <p class="fs-6">{{item.type}}</p>
+              <a href="#" class="btn btn-primary w-50 text align-center"> Rent Now</a>
             </div>
-            {% endfor %}
           </div>
-        </section>
+        </div>
+        {% endfor %}
       </div>
     </section>
- 
+
   </section>
 </div>
 {% endblock %}
