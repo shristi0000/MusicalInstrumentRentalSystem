@@ -20,54 +20,15 @@ from django.template.loader import render_to_string
 from .tokens import generate_token
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from .forms import  InstrumentForm
 # def login(req):
 #     return render(req, 'frontend/login.html')
 
 def landing(req):
-    data = {'data': [
-        {
-        'title': 'Cecilio 4-4 CVNAE-Black+SR Ebony Fitted',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 241.png',
-        'price': 'Rs 5000'
-        },{
-        'title': 'Hand Carved Coconut Karimba Mbira',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 242.png',
-        'price': 'Rs 5300'
-        },{
-        'title': 'Mendini MDS80-BK Complete Full Size',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 243.png',
-        'price': 'Rs 4000'
-        },{
-        'title': 'Rizatti Bronco RB31GW Diatonic Accc',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 244.png',
-        'price': 'Rs 34900'
-        },{
-        'title': 'Z ZTDM Professional Alto Eb Saxophone',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 250.png',
-        'price': 'Rs 2399'
-        },{
-        'title': 'Rizatti Bronco RB31GW Diatonic Accc',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 244.png',
-        'price': 'Rs 5000'
-        },{
-        'title': 'Hand Carved Coconut Karimba Mbira',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 242.png',
-        'price': 'Rs 5500'
-        },{
-        'title': 'Mendini MDS80-BK Complete Full Size',
-        'description': 'Welcome to InstrumentHub',
-        # 'image': '/media/images/Rectangle 243.png',
-        'price': 'Rs 5000'
-        }
-    ]}
-    return render(req, 'frontend/landing.html', data)
+    data=Instrument.objects.all()
+    for item in data:
+        item.image=item.image.url if item.image else None
+    return render(req, 'frontend/landing.html',{'data':data})
 
 def register(request):
     if request.method == 'POST':
@@ -96,7 +57,9 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('dashboard')
+            if user.is_superuser:
+                return redirect('dashboard')
+            return redirect('customer_dashboard')
     else:
         form = AuthenticationForm()
 
@@ -104,10 +67,21 @@ def user_login(request):
 
 def dashboard(request):
     instruments = Instrument.objects.all()
+    total_instruments= instruments.count()
+    total_users= User.objects.all().count()
+    meta_data= {
+        'total_instruments':total_instruments,
+        'total_users':total_users,
+    }
+    for instrument in list(instruments):
+       instrument.image = instrument.image.url if instrument.image else None
+    return render(request, 'frontend/dashboard.html',{'instrument':instruments,'meta_data':meta_data})
+def customer_dashboard(request):
+    instruments = Instrument.objects.all()
     
     for instrument in list(instruments):
        instrument.image = instrument.image.url if instrument.image else None
-    return render(request, 'frontend/dashboard.html',{'instrument':instruments})
+    return render(request, 'frontend/Customerdashboard.html',{'instrument':instruments})
 
 
 def user_logout(request):
@@ -137,7 +111,10 @@ def add_instrument(request):
     if request.method == 'POST':
         form = InstrumentForm(request.POST, request.FILES)
         if form.is_valid():
+            # form.user=request.user
             instrument = form.save()
+            instrument.user=request.user
+            instrument.save()
             messages.success(request, 'Instrument added successfully')
             return redirect('dashboard')
     else:
@@ -150,7 +127,6 @@ def ForgetPassword(request):
     
     try:
         if request.method == 'POST':
-            print("hellllooooooooooooooooooooooooooooooooooooooooooooooooo")
             username = request.POST.get('username')
            
             if not User.objects.filter(email=username).first():
@@ -253,3 +229,45 @@ def livelistings(request):
 
 def password_reset_done(request):
     return render(request,'frontend/password_reset_done.html')
+
+def instrument_update(request, id):
+    
+    try:
+        instrument_obj = Instrument.objects.get(id=id)
+
+        #if instrument_obj.user != request.user:
+         #   return redirect('/')
+        if instrument_obj.user==request.user:
+            form = InstrumentForm(request.POST, request.FILES,instance=instrument_obj)
+            if form.is_valid():
+                instrument = form.save()
+                messages.success(request, 'Instrument updated successfully')
+                return redirect('dashboard')
+            else:
+                form = InstrumentForm()
+
+            return render(request, 'frontend/update_instruments.html', {'item': instrument_obj})
+       # else:
+
+    except Exception as e:
+        print(e)
+
+        return render(request,'frontend/update_instruments.html')
+
+def instrument_delete(request, id):
+    print('instrument delete')
+    instrument = get_object_or_404(Instrument, id=id)
+    if instrument.user== request.user:
+        instrument.delete()
+    return redirect('dashboard')
+
+def instrument_details(request,id):
+    instruments = Instrument.objects.get(id=id)
+    instruments.image=instruments.image.url if instruments.image else None
+    return render(request, "frontend/instrument_details.html", {"instrument_obj": instruments})
+ 
+def my_listings(request):
+    instruments = Instrument.objects.filter(user=request.user)
+    for instrument in list(instruments):
+       instrument.image = instrument.image.url if instrument.image else None
+    return render(request, 'frontend/my_listings.html',{'instruments':instruments})

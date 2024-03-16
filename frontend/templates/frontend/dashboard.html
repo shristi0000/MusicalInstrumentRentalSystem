@@ -5,33 +5,42 @@
     
     <a href="{% url 'users' %}" class="btn btn-primary" role="button">Users</a>
     <a href="{% url 'livelistings' %}" class="btn btn-primary" role="button">Live listings</a>
-    <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-secondary" role="button">Add Instrument</a>
-
+    <a href="{% url 'my_listings' %}" class="btn btn-primary" role="button">My listings</a>
+    <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-primary" role="button">Add Instrument</a>
+    <div class="card-group">
+      {% comment %} <div class="card" style="width: 10rem;">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <h1>{{meta_data.total_users}}</h1>
+        </div>
+      </div>
+      <div class="card" style="width: 10rem; margin-left: 20px;">
+        <div class="card-body">
+          <h5 class="card-title">Total Instruments</h5>
+          <h1>{{meta_data.total_instruments}}</h1>
+        </div>
+      </div> {% endcomment %}
+    </div>
     <section class="my-5">
       <div class="h3">Instruments</div>
       <div class="row row-cols-2 row-cols-md-4 g-2">
         {% for item in instrument %}
         <div class="col">
-          <div class="card h-120 w-120 border-secondary p-4"> 
-            <img
-              src="{{item.image}}"
-              class="card-img"
-              alt="..."
-              width="300"
-              height="300"
-            />
-            <div class="card-body px-0 text align-left">
+          <div class="card h-100 w-100 border- p-4"> 
+            <a href="{% url 'instrument_details' item.id %}">
+              <img src="{{item.image}}" class="card-img" alt="..." width="300" height="300" />
+            </a>
+            <div class="card-body px-0 text-align-left">
               <h5 class="card-title fs-6">{{item.name}}</h5>
               <p class="fs-4">{{item.price_per_day}}</p>
               <p class="fs-6">{{item.type}}</p>
-              <a href="#" class="btn btn-primary w-50 text align-center"> Rent Now</a>
+              <a href="#" class="btn btn-primary w-50 text-align-center"> Rent Now</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
     </section>
-
   </section>
 </div>
 {% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'frontend/base.html' %} 
+{% block start %}
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+  <div class="card border-0 w-50 bg-transparent p-4">
+    <div class="login-box bg-light info text-dark mx-5 rounded p-4 border border-dark"> 
+      <h2 class="text-center">Update Instruments</h2>
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {% for field, error in form.errors.items %} {{ error }} {% endfor %}
+      </div>
+      {% endif %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name" class="form-label">
+          <i class="fas fa-user"></i>
+          Instrument Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{item.name}}"
+          class="form-control"
+          required
+        />
+        <label for="type" class="form-label mt-3">
+          <i class="fas fa-user"></i>
+         Type
+        </label>
+        <input
+          type="text"
+          id="type"
+          name="type"
+          value="{{item.type}}"
+          class="form-control"
+          required
+        />
+        <label for="price_per_day" class="form-label mt-3">
+          <i class="fas fa-user"></i>
+          Price Per Day
+        </label>
+        <input
+          type="text"
+          id="price_per_day"
+          name="price_per_day"
+          value="{{item.price_per_day}}"
+          class="form-control"
+          required
+        />
+        <label for="image" class="form-label mt-3">
+          <i class="fas fa-envelope"></i>
+          Image
+        </label>
+        <input
+          type="file"  
+          id="image"    
+          name="image" 
+          value="{{item.image}}" 
+          class="form-control"
+          required
+        />
+        <label for="description" class="form-label mt-3">
+          <i class="fas fa-lock"></i>
+          Description
+        </label>
+        <input
+          type="text"  
+          id="description"
+          name="description"
+          value="{{item.description}}"
+          class="form-control"
+          required
+        />
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary mt-3 text-center">
+           Update Instrument
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

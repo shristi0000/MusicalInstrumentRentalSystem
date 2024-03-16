@@ -35,9 +35,14 @@ urlpatterns = [
     path('users/', views.users, name='users'),
     path('delete_user/<int:user_id>', views.delete_user, name='delete_user'),
     path('add_instrument/', add_instrument, name='add_instrument'),
-     path('change-password/<token>/<username>' , views.changePassword , name="change_password"),
-     path('forget-password/' , views.ForgetPassword , name="forget_password"),
+    path('change-password/<token>/<username>' , views.changePassword , name="change_password"),
+    path('forget-password/' , views.ForgetPassword , name="forget_password"),
     # path('password-reset/', ResetPasswordView.as_view(), name='forgot_password'),
-     path('password_reset_done/' , views.password_reset_done , name="password_reset_done"),
+    path('password_reset_done/' , views.password_reset_done , name="password_reset_done"),
+    path('instrumet-update/<int:id>', views.instrument_update, name="update_instruments"),
+    path('instrument-delete/<int:id>', views.instrument_delete, name="instrument_delete"),
+    path('instrument-details/<int:id>', views.instrument_details, name="instrument_details"),
+    path('customer-dashboard/',views.customer_dashboard, name='customer_dashboard'),
+    path('my-listings/', views.my_listings, name='my_listings'),
 ]
 

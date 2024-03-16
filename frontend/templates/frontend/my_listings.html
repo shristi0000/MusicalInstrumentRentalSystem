@@ -1,0 +1,49 @@
+{% extends 'frontend/base.html' %}
+
+{% block start %}
+<div class="container my-5">
+  <section class="">
+    <div class="btn btn-primary btn-lg text-center disabled opacity-100 my-3">
+      <span>My Listings</span>
+    </div>
+    <div class="card shadow p-4">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Instrumentname</th>
+              <th scope="col">Price</th>
+              <th scope="col">Type</th>
+              <th scope="col">Image</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for instrument in instruments %}
+            <tr>
+              <td>{{ instrument.name }}</td>
+              <td>{{ instrument.price_per_day }}</td>
+              <td>{{ instrument.type }}</td>
+              <td><img src="{{ instrument.image }}" class="img-thumbnail" alt="Instrument Image" width="100"></td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Actions">
+                  <form method="get" action="{% if instrument.id %}{% url 'instrument_delete' instrument.id %}{% endif %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  <div style="width: 10px;"></div> <!-- Add a gap between buttons -->
+                  <form method="get" action="{% if instrument.id %}{% url 'update_instruments' instrument.id %}{% endif %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Update</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "frontend/base.html" %}
+
+{% block start %}
+
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img class="card-img" src="{{instrument_obj.image}}" alt="">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{instrument_obj.name}}</h5>
+                        <p class="card-text">{{instrument_obj.price_per_day}}</p>
+                        <p class="card-text">{{instrument_obj.type}}</p>
+                        <p class="card-text">{{instrument_obj.description}}</p>
+                        {% if user == instrument_obj.user %}
+                        <div class="mt-4">
+                            <form method="get" action="{% if instrument_obj.id %}{% url 'instrument_delete' instrument_obj.id %}{% endif %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <form method="get" action="{% if instrument_obj.id %}{% url 'update_instruments' instrument_obj.id %}{% endif %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Update</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
