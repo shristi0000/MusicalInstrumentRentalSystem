@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Instrument
+from .models import Instrument,RentInstruments
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.')
     first_name = forms.CharField(max_length=30, required=True, help_text='Required. Enter your first name.')
@@ -15,3 +15,9 @@ class InstrumentForm(forms.ModelForm):
     class Meta:
         model = Instrument
         fields = ['name', 'type', 'price_per_day', 'image', 'description']
+
+
+class RentForm(forms.ModelForm):
+    class Meta:
+        model = RentInstruments
+        fields = ['id','instrument','renter','pickup_date', 'dropoff_date','pickup_address','dropoff_address','status']

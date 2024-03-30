@@ -23,7 +23,7 @@
                             </form>
                             <form method="get" action="{% if instrument_obj.id %}{% url 'update_instruments' instrument_obj.id %}{% endif %}" class="d-inline">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Update</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>
                         {% endif %}

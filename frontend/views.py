@@ -21,6 +21,9 @@ from .tokens import generate_token
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
 from .forms import  InstrumentForm
+from . import views
+from .forms import RentForm
+
 # def login(req):
 #     return render(req, 'frontend/login.html')
 
@@ -271,3 +274,29 @@ def my_listings(request):
     for instrument in list(instruments):
        instrument.image = instrument.image.url if instrument.image else None
     return render(request, 'frontend/my_listings.html',{'instruments':instruments})
+
+# def search_view(request):
+    query = request.GET.get('q')
+    if query:
+        instruments = Instrument.objects.filter(name__icontains=query)
+    else:
+        instruments = Instrument.objects.all()
+    return render(request, 'frontend/search_results.html', {'instruments': instruments, 'query': query})
+
+
+
+def rent_instrument(request):
+    if request.method == 'POST':
+        form = RentForm(request.POST)
+        print(form.data)
+        if form.is_valid():
+            form.renter=request.user
+            form.instrument_id=1
+            instrument = form.save()
+            instrument.save()
+            messages.success(request, 'Instrument has been  Rented')
+            return redirect('dashboard')
+    else:
+        form = RentForm()
+
+    return render(request, 'frontend/rent_instrument.html', {'form': form})

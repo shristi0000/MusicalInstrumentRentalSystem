@@ -39,6 +39,27 @@ class Instrument(models.Model):
 class  PasswordResetForm(models.Model):
      new_Password = models.CharField(max_length=100)
      new_Password = models.CharField(max_length=50)
+
+class RentInstruments(models.Model):
+    instrument = models.ForeignKey(Instrument,on_delete=models.CASCADE)
+    renter= models.ForeignKey(User,on_delete=models.CASCADE)
+    pickup_date= models.DateField()
+    dropoff_date= models.DateField()
+    pickup_address= models.TextField()
+    dropoff_address=models.TextField()
+    date= models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=255,
+        choices=[
+            ("Accepted","Accepted"),
+            ("Declined","Declined"),
+            ("Cancelled","Cancelled"),
+            ("Pending","Pending"),
+        ],
+        default='pending'
+    )
+
+
     
 
     

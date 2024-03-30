@@ -1,31 +1,43 @@
-{% extends 'frontend/base.html' %} {% block start %}
+{% extends 'frontend/base.html' %}
+{% block start %}
 <div class="container my-5">
+  <section class="">
+    
   
-  <section class="my-5">
-    <div class="h3">Live listings</div>
-    <div class="row row-cols-2 row-cols-md-4 g-2">
-      {% for item in instrument %}
-      <div class="col">
-        <div class="card h-120 w-120 border-secondary">
-          
-          <img
-            src="{{item.image}}"
-            class="card-img"
-            alt="..."
-            width="300"
-            height="300"
-          />
-          <div class="card-body px-secondary">
-            <h5 class="card-title fs-6">{{item.name}}</h5>
-            <p class="fs-4">{{item.price_per_day}}</p>
-            <p class="fs-6">{{item.type}}</p>
-            <a href="#" class="btn btn-primary w-50"> Rent Now</a>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <section class="my-5">
+      <div class="h3">Live Listings</div>
+      <div class="row row-cols-2 row-cols-md-4 g-2">
+        {% for item in instrument %}
+        <div class="col">
+          <div class="card h-120 w-120 border-secondary p-4"> 
+            <a href="{% url 'instrument_details' item.id %}">
+            <img
+              src="{{item.image}}"
+              class="card-img"
+              alt="..."
+              width="300"
+              height="300"
+            />
+            </a>
+            <div class="card-body px-0 text align-left">
+              <h5 class="card-title fs-6">{{item.name}}</h5>
+              <p class="fs-4">{{item.price_per_day}}</p>
+              <p class="fs-6">{{item.type}}</p>
+              <a href="#" class="btn btn-primary w-100 text-align-center">
+                <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
+                Rent Now
+              </a>
+              
+            </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
+    </section>
+
   </section>
-  
 </div>
 {% endblock %}

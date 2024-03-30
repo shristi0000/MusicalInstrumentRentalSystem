@@ -34,7 +34,7 @@
                   <div style="width: 10px;"></div> <!-- Add a gap between buttons -->
                   <form method="get" action="{% if instrument.id %}{% url 'update_instruments' instrument.id %}{% endif %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Update</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                   </form>
                 </div>
               </td>

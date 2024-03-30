@@ -1,46 +1,95 @@
 {% extends 'frontend/base.html' %}
 {% block start %}
-<div class="container my-5">
-  <section class="">
-    
-    <a href="{% url 'users' %}" class="btn btn-primary" role="button">Users</a>
-    <a href="{% url 'livelistings' %}" class="btn btn-primary" role="button">Live listings</a>
-    <a href="{% url 'my_listings' %}" class="btn btn-primary" role="button">My listings</a>
-    <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="btn btn-primary" role="button">Add Instrument</a>
-    <div class="card-group">
-      {% comment %} <div class="card" style="width: 10rem;">
-        <div class="card-body">
-          <h5 class="card-title">Total Users</h5>
-          <h1>{{meta_data.total_users}}</h1>
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 bg-light">
+      <div class="d-flex align-items-center justify-content-center mt-3 mb-4">
+        <span role="img" aria-label="Admin" class="fs-3 rounded-circle bg-dark text-light p-2">👩‍💼</span>
+        <h3 class="mb-0 text-dark">Admin</h3>
       </div>
-      <div class="card" style="width: 10rem; margin-left: 20px;">
-        <div class="card-body">
-          <h5 class="card-title">Total Instruments</h5>
-          <h1>{{meta_data.total_instruments}}</h1>
-        </div>
-      </div> {% endcomment %}
+
+      <div class="list-group list-group-flush">
+        <a href="{% url 'users' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Users">👥</span> Users
+        </a>
+        <a href="{% url 'livelistings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Live Listings">📋</span> Live Listings
+        </a>
+        <a href="{% url 'my_listings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="My Listings">📝</span> My Listings
+        </a>
+        <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Add Instrument">➕</span> Add Instrument
+        </a>
+      </div>
     </div>
-    <section class="my-5">
-      <div class="h3">Instruments</div>
-      <div class="row row-cols-2 row-cols-md-4 g-2">
-        {% for item in instrument %}
-        <div class="col">
-          <div class="card h-100 w-100 border- p-4"> 
-            <a href="{% url 'instrument_details' item.id %}">
-              <img src="{{item.image}}" class="card-img" alt="..." width="300" height="300" />
-            </a>
-            <div class="card-body px-0 text-align-left">
-              <h5 class="card-title fs-6">{{item.name}}</h5>
-              <p class="fs-4">{{item.price_per_day}}</p>
-              <p class="fs-6">{{item.type}}</p>
-              <a href="#" class="btn btn-primary w-50 text-align-center"> Rent Now</a>
-            </div>
+    <!-- End Sidebar -->
+
+    <!-- Main Content -->
+    <div class="col-md-9">
+      <div class="card-group">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <span role="img" aria-label="Total Users">👥</span> Total Users
+            </h5>
+            <h1>{{meta_data.total_users}}</h1>
           </div>
         </div>
-        {% endfor %}
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <span role="img" aria-label="Total Instruments">🎵</span> Total Instruments
+            </h5>
+            <h1>{{meta_data.total_instruments}}</h1>
+          </div>
+        </div>
+        <!-- New Box for Total Rented Instruments -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <span role="img" aria-label="Total Rented Instruments">🔑</span> Total Rented Instruments
+            </h5>
+            <h1>{{meta_data.total_rented_instruments}}</h1>
+          </div>
+        </div>
+        <!-- End New Box -->
       </div>
-    </section>
-  </section>
+      <section class="my-5">
+        <div class="h3">Instruments</div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+          {% for item in instrument %}
+          <div class="col mb-4">
+            <div class="card h-100 border p-4">
+              <a href="{% url 'instrument_details' item.id %}">
+                <img src="{{item.image}}" class="card-img" alt="..." width="300" height="300" />
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">{{item.name}}</h5>
+                <p class="card-text">{{item.price_per_day}}</p>
+                <p class="card-text">{{item.type}}</p>
+                <a href="#" class="btn btn-primary w-100">
+                  <i class="bi bi-calendar-check"></i> Rent Now
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+    <!-- End Main Content -->
+  </div>
 </div>
+
+<style>
+  .sidebar-item {
+    transition: transform 0.3s;
+  }
+  .sidebar-item:hover {
+    transform: translateX(5px);
+  }
+</style>
+
 {% endblock %}

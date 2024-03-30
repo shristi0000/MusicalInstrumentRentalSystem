@@ -19,7 +19,7 @@ from django.urls import path,include
 from . import views
 from .views import delete_user
 from django.contrib.auth import views as auth_views
-from .views import add_instrument
+from .views import add_instrument,rent_instrument
 # from .views import ResetPasswordView
 
 
@@ -44,5 +44,7 @@ urlpatterns = [
     path('instrument-details/<int:id>', views.instrument_details, name="instrument_details"),
     path('customer-dashboard/',views.customer_dashboard, name='customer_dashboard'),
     path('my-listings/', views.my_listings, name='my_listings'),
+    # path('search/', views.search_results, name='search_results'),
+    path('rent_instrument/', rent_instrument, name='rent_instrument'),
 ]
 
