@@ -3,32 +3,42 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
-    <div class="col-md-3 bg-light">
+    <div class="col-md-2 bg-light">
       <div class="d-flex align-items-center justify-content-center mt-3 mb-4">
         <span role="img" aria-label="Admin" class="fs-3 rounded-circle bg-dark text-light p-2">👩‍💼</span>
-        <h3 class="mb-0 text-dark">Admin</h3>
+        <h3 class="mb-0 text-dark"></h3>
       </div>
 
       <div class="list-group list-group-flush">
+        {% if user.is_superuser %}
         <a href="{% url 'users' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
           <span role="img" aria-label="Users">👥</span> Users
         </a>
+        {% endif %}
         <a href="{% url 'livelistings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
           <span role="img" aria-label="Live Listings">📋</span> Live Listings
         </a>
         <a href="{% url 'my_listings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
           <span role="img" aria-label="My Listings">📝</span> My Listings
         </a>
+        <a href="{% url 'instrument_reports' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Instrument Reports">📊</span> Instrument Reports
+        </a>
+        <a href="{% url 'my_rentals' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="My Rentals">🚚</span> My Rentals
+        </a>
         <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
           <span role="img" aria-label="Add Instrument">➕</span> Add Instrument
         </a>
+        
       </div>
     </div>
     <!-- End Sidebar -->
 
     <!-- Main Content -->
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="card-group">
+        {% if user.is_superuser %}
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
@@ -37,6 +47,7 @@
             <h1>{{meta_data.total_users}}</h1>
           </div>
         </div>
+        {% endif %}
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
@@ -68,10 +79,20 @@
               <div class="card-body">
                 <h5 class="card-title">{{item.name}}</h5>
                 <p class="card-text">{{item.price_per_day}}</p>
-                <p class="card-text">{{item.type}}</p>
-                <a href="#" class="btn btn-primary w-100">
-                  <i class="bi bi-calendar-check"></i> Rent Now
-                </a>
+                <p class="card-text">{{item.type}}<span class="fs-6" style="color: {% if item.status == 'Available' %}green{% else %}red{% endif %};">{{item.status}}</span></p>
+                {% if item.status != 'Rented' %}
+                {% if user.is_authenticated or user.is_superuser %}
+                  <a href="{% url 'rent_instrument' item.id %}" class="btn btn-primary w-100 text-align-center">
+                    <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
+                    Rent Now
+                  </a>
+                {% else %}
+                  <a href="{% url 'login' %}" class="btn btn-primary w-100 text-align-center">
+                    <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
+                    Rent Now
+                  </a>
+                {% endif %}
+              {% endif %}
               </div>
             </div>
           </div>

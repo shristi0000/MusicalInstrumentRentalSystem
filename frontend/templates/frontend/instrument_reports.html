@@ -42,40 +42,32 @@
     </div>
   <div class="col-md-10">
     <div class="btn btn-primary btn-lg text-center disabled opacity-100 my-3">
-      <span>My Listings</span>
+      <span>Instrument Records</span>
     </div>
     <div class="card shadow p-4">
       <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Instrumentname</th>
-              <th scope="col">Price</th>
-              <th scope="col">Type</th>
-              <th scope="col">Image</th>
-              <th scope="col">Actions</th>
+              <th scope="col">Instrument Name</th>
+              {% if user.is_superuser %}
+              <th scope="col">Owner</th>
+              {% endif %}
+              <th scope="col">Renter</th>
+              <th scope="col">Rented Days</th>
+              <th scope="col">Status</th>
             </tr>
           </thead>
           <tbody>
             {% for instrument in instruments %}
             <tr>
-              <td>{{ instrument.name }}</td>
-              <td>{{ instrument.price_per_day }}</td>
-              <td>{{ instrument.type }}</td>
-              <td><img src="{{ instrument.image }}" class="img-thumbnail" alt="Instrument Image" width="100"></td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Actions">
-                  <form method="get" action="{% if instrument.id %}{% url 'instrument_delete' instrument.id %}{% endif %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                  <div style="width: 10px;"></div> <!-- Add a gap between buttons -->
-                  <form method="get" action="{% if instrument.id %}{% url 'update_instruments' instrument.id %}{% endif %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">Update</button>
-                  </form>
-                </div>
-              </td>
+              <td>{{ instrument.instrument__name }}</td>
+              {% if user.is_superuser %}
+              <td>{{ instrument.owner_name }}</td>
+              {% endif %}
+              <td>{{ instrument.renter_name }}</td>
+              <td>{{ instrument.rented_days }}</td>
+              <td>{{ instrument.status }}</td>
             </tr>
             {% endfor %}
           </tbody>

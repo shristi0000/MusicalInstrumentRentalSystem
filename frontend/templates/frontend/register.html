@@ -1,13 +1,16 @@
-{% extends 'frontend/base.html' %} {% block start %}
+{% extends 'frontend/base.html' %}
+{% block start %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="correct-integrity-value" crossorigin="anonymous">
 
-<div
-  class="container-fluid min-vh-100 d-flex justify-content-center align-items-center"
-  style="background: linear-gradient(to bottom, #007bff 50%, #ffffff 50%)"
->
-  <div class="card border-0 w-50 bg-transparent p-4">
-    <div class="login-box bg-light info text-dark mx-5 rounded p-4 border border-dark"> 
-      <h2 class="text-center">Register</h2>
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center" style="background: linear-gradient(to bottom, #007bff 50%, #ffffff 50%)">
+  <div class="card border-0 w-50 bg-transparent p-4" style="height: auto;">
+    <div class="login-box bg-light info text-dark mx-2 rounded p-4 border border-"> 
+      <h2 class="text-left mb-4">
+        <span>Make a deal.</span><br>
+        <span>Welcome to InstrumentHUB</span>
+      </h2>
+        
+      <h3 class="text-center mb-">Register</h3>
       {% if form.errors %}
       <div class="alert alert-danger">
         {% for field, error in form.errors.items %} {{ error }} {% endfor %}
@@ -102,6 +105,13 @@
         Already have an account?
         <a href="{% url 'login' %}" class="text-primary">Log In</a>
       </p>
+    
+    <div>
+        
+        <p>Click below to sign in with Google</p>
+        <!--            Paste the generated HTML code for Google sign in button goes here-->
+    </div>
+    
     </div>
   </div>
 </div>

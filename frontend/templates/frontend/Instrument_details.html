@@ -1,27 +1,28 @@
 {% extends "frontend/base.html" %}
 
 {% block start %}
-
 <section>
     <div class="container">
-        <div class="card">
+        <div class="card border-0">
             <div class="row no-gutters">
+                {% for image in images %}
                 <div class="col-md-4">
-                    <img class="card-img" src="{{instrument_obj.image}}" alt="">
+                    <img class="card-img" src="{{ image.image.url }}" alt="{{ instrument_obj.name }}">
                 </div>
+                {% endfor %}
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{instrument_obj.name}}</h5>
-                        <p class="card-text">{{instrument_obj.price_per_day}}</p>
-                        <p class="card-text">{{instrument_obj.type}}</p>
-                        <p class="card-text">{{instrument_obj.description}}</p>
+                        <h5 class="card-title">{{ instrument_obj.name }}</h5>
+                        <p class="card-text">{{ instrument_obj.price_per_day }}</p>
+                        <p class="card-text">{{ instrument_obj.type }}</p>
+                        <p class="card-text">{{ instrument_obj.description }}</p>
                         {% if user == instrument_obj.user %}
                         <div class="mt-4">
-                            <form method="get" action="{% if instrument_obj.id %}{% url 'instrument_delete' instrument_obj.id %}{% endif %}" class="d-inline">
+                            <form method="get" action="{% url 'instrument_delete' instrument_obj.id %}" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
-                            <form method="get" action="{% if instrument_obj.id %}{% url 'update_instruments' instrument_obj.id %}{% endif %}" class="d-inline">
+                            <form method="get" action="{% url 'update_instruments' instrument_obj.id %}" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
@@ -33,5 +34,4 @@
         </div>
     </div>
 </section>
-
 {% endblock %}

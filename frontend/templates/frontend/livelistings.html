@@ -1,10 +1,44 @@
 {% extends 'frontend/base.html' %}
 {% block start %}
-<div class="container my-5">
-  <section class="">
-    
-  
-   
+<div class="container-fluid">
+    <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 bg-light">
+      {% if user.is_superuser %}
+      <div class="d-flex align-items-center justify-content-center mt-3 mb-4">
+        <span role="img" aria-label="Admin" class="fs-3 rounded-circle bg-dark text-light p-2">👩‍💼</span>
+        <h3 class="mb-0 text-dark">Admin</h3>
+      </div>
+      {% else %}
+      <div class="d-flex align-items-center justify-content-center mt-3 mb-4">
+        <span role="img" aria-label="User" class="fs-3 rounded-circle bg-dark text-light p-2">👤</span>
+        <h3 class="mb-0 text-dark">{{user.username}}</h3>
+      </div>
+      {% endif %}
+      <div class="list-group list-group-flush">
+        {% if user.is_superuser %}
+        <a href="{% url 'users' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Users">👥</span> Users
+        </a>
+        {% endif %}
+        <a href="{% url 'livelistings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Live Listings">📋</span> Live Listings
+        </a>
+        <a href="{% url 'my_listings' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="My Listings">📝</span> My Listings
+        </a>
+        <a href="{% url 'instrument_reports' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Instrument Reports">📊</span> Instrument Reports
+        </a>
+        <a href="{% url 'my_rentals' %}" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="My Rentals">🚚</span> My Rentals
+        </a>
+        <a href="{% url 'add_instrument' %}" id="addInstrumentBtn" class="list-group-item list-group-item-action bg-light text-dark sidebar-item">
+          <span role="img" aria-label="Add Instrument">➕</span> Add Instrument
+        </a>
+      </div>
+    </div>
+  <div class="col-md-10">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <section class="my-5">
@@ -25,12 +59,30 @@
             <div class="card-body px-0 text align-left">
               <h5 class="card-title fs-6">{{item.name}}</h5>
               <p class="fs-4">{{item.price_per_day}}</p>
-              <p class="fs-6">{{item.type}}</p>
-              <a href="#" class="btn btn-primary w-100 text-align-center">
-                <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
-                Rent Now
-              </a>
-              
+              <p class="fs-6">{{item.type}} <span class="fs-6" style="color: {% if item.status == 'Available' %}green{% else %}red{% endif %};">{{item.status}}</span></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  {% if item.status != 'Rented' %}
+                    {% if user.is_authenticated or user.is_superuser %}
+                      <a href="{% url 'rent_instrument' item.id %}" class="btn btn-primary w-100 text-align-center">
+                        <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
+                        Rent Now
+                      </a>
+                    {% else %}
+                      <a href="{% url 'login' %}" class="btn btn-primary w-100 text-align-center">
+                        <i class="bi bi-calendar-check"></i> <!-- Booking icon -->
+                        Rent Now
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <div>
+                  <!-- Wishlist icon embedded SVG code -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="M8 14s6-4.5 6-8a4-4 0 0 0-8 0c0 1.657.672 3.72 1.747 5.436A19.462 19.462 0 0 0 8 14zm-.336-2.596C6.735 10.64 5 9.165 5 7.5c0-1.5 1.5-2.5 3-2.5s3 1 3 2.5c0 1.665-1.735 3.14-2.664 4.904a.502.502 0 0 1-.672 0z"/>
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -38,6 +90,6 @@
       </div>
     </section>
 
-  </section>
+  </div>
 </div>
 {% endblock %}
